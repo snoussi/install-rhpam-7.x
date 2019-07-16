@@ -1,0 +1,6 @@
+#
+# Configure Kie-server System properties.
+#
+
+/system-property=org.kie.server.persistence.ds:add(value="java:jboss/datasources/pam_ds")
+/system-property=org.kie.server.persistence.dialect:add(value="org.hibernate.dialect.PostgreSQLDialect")
