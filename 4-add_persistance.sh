@@ -6,7 +6,7 @@ echo "Start Server first by running this command: ./standalone.sh -c standalone-
 
 TARGET=../
 #TODO: Edit EAP version
-JBOSS_HOME=$TARGET/rhpam-7.3
+JBOSS_HOME=$TARGET/rhpam-7.4
 
 ./reset-db.sh
 
