@@ -31,7 +31,7 @@ $ ./2-add-props.sh
 $ ./3-add-kieserver-props.sh
 ```
 
-- Optionally, you can configure the persistance with the provided scripts.
+- Optionally, you can configure the persistance.
 
 - Stop EAP Server (admin mode)
 
