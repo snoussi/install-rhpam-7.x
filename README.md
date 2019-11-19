@@ -1,4 +1,4 @@
-# RHPAM-7.4 Sandbox Installation
+# RHPAM-7.5 Sandbox Installation
 
 ## Installation packages
 
@@ -15,7 +15,7 @@ $ ./1-install.sh
 - Start EAP Server in admin mode
 
 ```
-$ cd ../rhpam-7.4/bin
+$ cd ../rhpam-7.5/bin
 $ ./standalone.sh -c standalone-full.xml --admin-only
 ```
 
@@ -38,6 +38,6 @@ $ ./3-add-kieserver-props.sh
 ## Start RHPAM
 
 ```
-$ cd ../rhpam-7.3
+$ cd ../rhpam-7.5
 $ ./bin/standalone.sh -c standalone-full.xml
 ```
