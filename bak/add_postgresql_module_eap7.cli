@@ -1,2 +1,0 @@
-#TODO: Download the Postgres Driver which you need as .jar-file (http://jdbc.postgresql.org/download.html)
-module add --name=org.postgresql --resources=postgresql-42.2.5.jar --dependencies=javax.api,javax.transaction.api
