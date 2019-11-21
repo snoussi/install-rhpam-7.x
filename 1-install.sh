@@ -192,6 +192,6 @@ echo "Renaming folders ..."
 echo
 mv $JBOSS_HOME $RHPAM_HOME
 cp reset-bc.sh $RHPAM_HOME
-cp reset-db.sh $RHPAM_HOME
+# cp reset-db.sh $RHPAM_HOME
 
 echo "Now, start server in administration mode by running this command: ./standalone.sh -c standalone-full.xml --admin-only"
