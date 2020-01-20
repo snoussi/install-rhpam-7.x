@@ -1,9 +1,9 @@
 #!/bin/sh
 
-PRODUCT="Red Hat Process Automation Manager 7.5.0 on EAP7.2"
+PRODUCT="Red Hat Process Automation Manager 7.6.0 on EAP7.2"
 
-RHPAM_BC=rhpam-7.5.0-business-central-eap7-deployable
-RHPAM_KS=rhpam-7.5.0-kie-server-ee8
+RHPAM_BC=rhpam-7.6.0-business-central-eap7-deployable
+RHPAM_KS=rhpam-7.6.0-kie-server-ee8
 #RHPAM_PATCH_WILDCARD=
 
 EAP=jboss-eap-7.2.0
@@ -19,7 +19,7 @@ TARGET=../
 SRC_DIR=./installs
 
 JBOSS_HOME=$TARGET/jboss-eap-7.2
-RHPAM_HOME=$TARGET/rhpam-7.5
+RHPAM_HOME=$TARGET/rhpam-7.6
 
 echo
 echo "#################################################################"

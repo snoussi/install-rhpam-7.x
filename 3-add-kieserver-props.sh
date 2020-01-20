@@ -4,7 +4,7 @@ AUTHORS1="Rachid Snoussi"
 echo "Start Server first by running this command: ./standalone.sh -c standalone-full.xml --admin-only"
 
 TARGET=../
-JBOSS_HOME=$TARGET/rhpam-7.5
+JBOSS_HOME=$TARGET/rhpam-7.6
 CLI_SCRIPT=add-kieserver-props.cli
 
 echo "Adding a pamController user on JBoss EAP ..."
