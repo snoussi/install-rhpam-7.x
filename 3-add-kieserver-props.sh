@@ -5,7 +5,7 @@ echo "Start Server first by running this command: ./standalone.sh -c standalone-
 
 TARGET=../
 JBOSS_HOME=$TARGET/rhpam-7.6
-CLI_SCRIPT=add-kieserver-props.cli
+CLI_SCRIPT=3-add-kieserver-props.cli
 
 echo "Adding a pamController user on JBoss EAP ..."
 echo
