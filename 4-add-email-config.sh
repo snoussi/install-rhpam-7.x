@@ -16,7 +16,7 @@ echo "Enter password"
 read -s PASSWORD
 
 TARGET=../
-JBOSS_HOME=$TARGET/rhpam-7.6
+JBOSS_HOME=$TARGET/rhpam-7.7
 
 $JBOSS_HOME/bin/jboss-cli.sh -c <<EOF
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=pam-mail-smtp/:add(host=$HOST, port=$PORT)
