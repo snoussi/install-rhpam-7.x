@@ -1,9 +1,9 @@
 #!/bin/sh
 
-PRODUCT="Red Hat Process Automation Manager 7.6.0 on EAP7.2"
+PRODUCT="Red Hat Process Automation Manager 7.7.0 on EAP7.2"
 
-RHPAM_BC=rhpam-7.6.0-business-central-eap7-deployable
-RHPAM_KS=rhpam-7.6.0-kie-server-ee8
+RHPAM_BC=rhpam-7.7.0-business-central-eap7-deployable
+RHPAM_KS=rhpam-7.7.0-kie-server-ee8
 #RHPAM_PATCH_WILDCARD=
 
 EAP=jboss-eap-7.2.0
@@ -13,13 +13,13 @@ EAP_USER=admin
 EAP_PWD=jboss1!
 
 RHPAM_USER=pamAdmin
-RHPAM_PWD=pamAdmin1!
+RHPAM_PWD=pamAdmin
 
 TARGET=../
 SRC_DIR=./installs
 
 JBOSS_HOME=$TARGET/jboss-eap-7.2
-RHPAM_HOME=$TARGET/rhpam-7.6
+RHPAM_HOME=$TARGET/rhpam-7.7
 
 echo
 echo "#################################################################"
@@ -180,7 +180,10 @@ touch $JBOSS_HOME/standalone/deployments/kie-server.war.dodeploy
 echo
 echo "Creating initial users ..."
 echo
-$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u $RHPAM_USER -p $RHPAM_PWD -ro admin,analyst,user,kie-server,rest-all,Administrators --silent
+$JBOSS_HOME/bin/add-user.sh -a -u $RHPAM_USER -p $RHPAM_PWD -ro admin,Administrators,kie-server,rest-all --silent
+$JBOSS_HOME/bin/add-user.sh -a -u manager1 -p manager1 -ro manager,kie-server,rest-all --silent
+$JBOSS_HOME/bin/add-user.sh -a -u user1 -p user1 -ro user,kie-server,rest-all --silent
+
 if [ $? -ne 0 ]; then
   echo
   echo "Error occurred during EAP installation!"
