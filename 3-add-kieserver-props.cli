@@ -3,7 +3,7 @@
 #
 
 /system-property=org.kie.server.controller.user:add(value="pamController")
-/system-property=org.kie.server.controller.pwd:add(value="pamController1!")
+/system-property=org.kie.server.controller.pwd:add(value="pamController")
 
 /system-property=org.kie.server.location:add(value="http://localhost:8080/kie-server/services/rest/server")
 
