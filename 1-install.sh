@@ -1,13 +1,13 @@
 #!/bin/sh
 
-PRODUCT="Red Hat Process Automation Manager 7.7.0 on EAP7.2"
+PRODUCT="Red Hat Process Automation Manager 7.9.1 on EAP 7.3"
 
-RHPAM_BC=rhpam-7.7.0-business-central-eap7-deployable
-RHPAM_KS=rhpam-7.7.0-kie-server-ee8
+RHPAM_BC=rhpam-7.9.1-business-central-eap7-deployable
+RHPAM_KS=rhpam-7.9.1-kie-server-ee8
 #RHPAM_PATCH_WILDCARD=
 
-EAP=jboss-eap-7.2.0
-# EAP_PATCH=
+EAP=jboss-eap-7.3.0
+EAP_PATCH=jboss-eap-7.3.5-patch
 
 EAP_USER=admin
 EAP_PWD=jboss1!
@@ -18,8 +18,8 @@ RHPAM_PWD=pamAdmin
 TARGET=../
 SRC_DIR=./installs
 
-JBOSS_HOME=$TARGET/jboss-eap-7.2
-RHPAM_HOME=$TARGET/rhpam-7.7
+JBOSS_HOME=$TARGET/jboss-eap-7.3
+RHPAM_HOME=$TARGET/rhpam-7.9
 
 echo
 echo "#################################################################"
@@ -42,15 +42,15 @@ else
   exit
 fi
 
-# if [ -r $SRC_DIR/$EAP_PATCH.zip ] || [ -L $SRC_DIR/$EAP_PATCH.zip ]; then
-#   echo "Red Hat Product patches $EAP_PATCH.zip are present..."
-#   echo
-# else
-#   echo "Need to download $EAP_PATCH.zip package from the Customer Portal"
-#   echo "and place it in the $SRC_DIR directory to proceed..."
-#   echo
-#   exit
-# fi
+if [ -r $SRC_DIR/$EAP_PATCH.zip ] || [ -L $SRC_DIR/$EAP_PATCH.zip ]; then
+  echo "Red Hat Product patches $EAP_PATCH.zip are present..."
+  echo
+else
+  echo "Need to download $EAP_PATCH.zip package from the Customer Portal"
+  echo "and place it in the $SRC_DIR directory to proceed..."
+  echo
+  exit
+fi
 
 
 if [ -r $SRC_DIR/$RHPAM_BC.zip ] || [ -L $SRC_DIR/$RHPAM_BC.zip ]; then
@@ -121,16 +121,16 @@ if [ $? -ne 0 ]; then
   exit
 fi
 
-# echo
-# echo "Applying $EAP_PATCH.zip patch now..."
-# echo
-# $JBOSS_HOME/bin/jboss-cli.sh --command="patch apply $SRC_DIR/$EAP_PATCH.zip --override-all"
+echo
+echo "Applying $EAP_PATCH.zip patch now..."
+echo
+$JBOSS_HOME/bin/jboss-cli.sh --command="patch apply $SRC_DIR/$EAP_PATCH.zip --override-all"
 
-# if [ $? -ne 0 ]; then
-#  echo
-#  echo "Error occurred during EAP patching!"
-#  exit
-# fi
+if [ $? -ne 0 ]; then
+ echo
+ echo "Error occurred during EAP patching!"
+ exit
+fi
 
 echo
 echo "Deploying $PRODUCT ($RHPAM_BC) now..."
