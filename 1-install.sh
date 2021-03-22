@@ -1,9 +1,9 @@
 #!/bin/sh
 
-PRODUCT="Red Hat Process Automation Manager 7.9.1 on EAP 7.3"
+PRODUCT="Red Hat Process Automation Manager 7.10.0 on EAP 7.3"
 
-RHPAM_BC=rhpam-7.9.1-business-central-eap7-deployable
-RHPAM_KS=rhpam-7.9.1-kie-server-ee8
+RHPAM_BC=rhpam-7.10.0-business-central-eap7-deployable
+RHPAM_KS=rhpam-7.10.0-kie-server-ee8
 #RHPAM_PATCH_WILDCARD=
 
 EAP=jboss-eap-7.3.0
@@ -19,7 +19,7 @@ TARGET=../
 SRC_DIR=./installs
 
 JBOSS_HOME=$TARGET/jboss-eap-7.3
-RHPAM_HOME=$TARGET/rhpam-7.9
+RHPAM_HOME=$TARGET/rhpam-7.10
 
 echo
 echo "#################################################################"
@@ -70,14 +70,6 @@ else
   echo "and place it in the $SRC_DIR directory to proceed..."
   exit
 fi
-
-# "Need to download all patch package from the Customer Portal and place it in the $SRC_DIR directory ..."
-#for f in $(ls $SRC_DIR/$RHPAM_PATCH_WILDCARD); do
-# if [ -r $f ] || [ -L $f ]; then
-#    echo "Red Hat Product patches $f are present..."
-# fi
-#done
-
 
 # Remove the old Red Hat instance, if it exists.
 if [ -x $JBOSS_HOME ]; then
@@ -135,6 +127,7 @@ fi
 echo
 echo "Deploying $PRODUCT ($RHPAM_BC) now..."
 echo
+
 unzip -qo $SRC_DIR/$RHPAM_BC.zip -d $TARGET
 
 if [ $? -ne 0 ]; then
@@ -146,35 +139,20 @@ fi
 echo
 echo "Deploying $PRODUCT ($RHPAM_KS) now..."
 echo
-unzip -qo $SRC_DIR/$RHPAM_KS.zip -d $JBOSS_HOME/standalone/deployments
+mkdir -p ./patch_tmp
+# unzip -qo $SRC_DIR/$RHPAM_KS.zip -d $JBOSS_HOME/standalone/deployments
+unzip -qo $SRC_DIR/$RHPAM_KS.zip -d ./patch_tmp
+
+cp -rf ./patch_tmp/SecurityPolicy/. $JBOSS_HOME/bin/
+cp -rf ./patch_tmp/kie-server.war $JBOSS_HOME/standalone/deployments/
+touch $JBOSS_HOME/standalone/deployments/kie-server.war.dodeploy
+rm -rf ./patch_tmp
 
 if [ $? -ne 0 ]; then
   echo
   echo "Error occurred during $PRODUCT installation!"
   exit
 fi
-
-touch $JBOSS_HOME/standalone/deployments/kie-server.war.dodeploy
-
-
-# echo
-# echo "Applying patches on $PRODUCT now..."
-# echo
-# mkdir -p ./patch_tmp
-# cd $SRC_DIR
-# for f in $RHPAM_PATCH_WILDCARD; do
-#   echo " >>> Applying $f ...";
-#   unzip -qo $f -d ../patch_tmp ;
-#   (cd ../patch_tmp/${f%????} && exec ./apply-updates.sh ../../$JBOSS_HOME eap7.x);
-# done
-# cd ..
-
-# rm -rf ./patch_tmp
-# if [ $? -ne 0 ]; then
-#   echo
-#   echo "Error occurred during $PRODUCT installation!"
-#   exit
-# fi
 
 # Create initial users
 echo
@@ -183,6 +161,7 @@ echo
 $JBOSS_HOME/bin/add-user.sh -a -u $RHPAM_USER -p $RHPAM_PWD -ro admin,Administrators,kie-server,rest-all --silent
 $JBOSS_HOME/bin/add-user.sh -a -u manager1 -p manager1 -ro manager,kie-server,rest-all --silent
 $JBOSS_HOME/bin/add-user.sh -a -u user1 -p user1 -ro user,kie-server,rest-all --silent
+$JBOSS_HOME/bin/add-user.sh -a -u user2 -p user2 -ro user,kie-server,rest-all --silent
 
 if [ $? -ne 0 ]; then
   echo
