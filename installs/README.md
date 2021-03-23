@@ -1,6 +1,6 @@
 # Installation packages
 
-Below the list of installation packages to download from the Red Hat Customer Portal ( https://access.redhat.com ) :
+Below the list of installation packages to download from the Red Hat Customer Portal ( https://access.redhat.com ) or from the Red Hat Developer website ( https://developers.redhat.com/products/rhpam/download )
 
 ## EAP 7.3 packages
 
