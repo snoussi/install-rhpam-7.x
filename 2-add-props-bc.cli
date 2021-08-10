@@ -1,0 +1,23 @@
+#
+# Configure RHPAM System properties.
+#
+
+#
+# For Business Central only
+#
+/system-property=org.uberfire.nio.git.dir:add(value="./pam-data/git-dir")
+/system-property=org.uberfire.nio.git.daemon.host:add(value="0.0.0.0")
+/system-property=org.uberfire.nio.git.ssh.host:add(value="0.0.0.0")
+/system-property=org.uberfire.metadata.index.dir:add(value="./pam-data")
+/system-property=org.kie.server.repo:add(value="./pam-data")
+/system-property=org.guvnor.m2repo.dir:add(value="./pam-data/m2repo")
+/system-property=org.kie.server.id:add(value="kie-cluster")
+
+#
+# For both Business Central and Kie Server
+# By default the products search for setting.xml on ~/.m2 folder.
+# You can change the default folder using system properties to point to a custom location settings.xml file
+# TODO: Change path to the custom location of settings.xml file
+#
+#/system-property=kie.maven.settings.custom:add(value="/home/USERX/.m2/settings.xml")
+#/system-property=org.kie.demo:add(value="false")

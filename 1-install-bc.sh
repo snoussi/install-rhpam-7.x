@@ -1,10 +1,8 @@
 #!/bin/sh
 
-PRODUCT="Red Hat Process Automation Manager 7.11.0 on EAP 7.3"
+PRODUCT="Red Hat Process Automation Manager 7.11.0 Business Central on EAP 7.3"
 
 RHPAM_BC=rhpam-7.11.1-business-central-eap7-deployable
-RHPAM_KS=rhpam-7.11.1-kie-server-ee8
-#RHPAM_PATCH_WILDCARD=
 
 EAP=jboss-eap-7.3.0
 EAP_PATCH=jboss-eap-7.3.5-patch
@@ -19,7 +17,7 @@ TARGET=../
 SRC_DIR=./installs
 
 JBOSS_HOME=$TARGET/jboss-eap-7.3
-RHPAM_HOME=$TARGET/rhpam-7.11
+RHPAM_HOME=$TARGET/rhpam-bc-7.11
 
 echo
 echo "#################################################################"
@@ -62,14 +60,6 @@ else
   exit
 fi
 
-if [ -r $SRC_DIR/$RHPAM_KS.zip ] || [ -L $SRC_DIR/$RHPAM_KS.zip ]; then
-  echo "Red Hat Product sources $RHPAM_KS.zip are present..."
-  echo
-else
-  echo "Need to download $RHPAM_KS.zip package from the Customer Portal"
-  echo "and place it in the $SRC_DIR directory to proceed..."
-  exit
-fi
 
 # Remove the old Red Hat instance, if it exists.
 if [ -x $JBOSS_HOME ]; then
@@ -136,24 +126,6 @@ if [ $? -ne 0 ]; then
   exit
 fi
 
-echo
-echo "Deploying $PRODUCT ($RHPAM_KS) now..."
-echo
-mkdir -p ./patch_tmp
-# unzip -qo $SRC_DIR/$RHPAM_KS.zip -d $JBOSS_HOME/standalone/deployments
-unzip -qo $SRC_DIR/$RHPAM_KS.zip -d ./patch_tmp
-
-cp -rf ./patch_tmp/SecurityPolicy/. $JBOSS_HOME/bin/
-cp -rf ./patch_tmp/kie-server.war $JBOSS_HOME/standalone/deployments/
-touch $JBOSS_HOME/standalone/deployments/kie-server.war.dodeploy
-rm -rf ./patch_tmp
-
-if [ $? -ne 0 ]; then
-  echo
-  echo "Error occurred during $PRODUCT installation!"
-  exit
-fi
-
 # Create initial users
 echo
 echo "Creating initial users ..."
@@ -162,6 +134,7 @@ $JBOSS_HOME/bin/add-user.sh -a -u $RHPAM_USER -p $RHPAM_PWD -ro admin,Administra
 $JBOSS_HOME/bin/add-user.sh -a -u manager1 -p manager1 -ro manager,kie-server,rest-all --silent
 $JBOSS_HOME/bin/add-user.sh -a -u user1 -p user1 -ro user,kie-server,rest-all --silent
 $JBOSS_HOME/bin/add-user.sh -a -u user2 -p user2 -ro user,kie-server,rest-all --silent
+$JBOSS_HOME/bin/add-user.sh -a -u pamController -p pamController -ro kie-server,rest-all --silent
 
 if [ $? -ne 0 ]; then
   echo
@@ -173,7 +146,5 @@ echo
 echo "Renaming folders ..."
 echo
 mv $JBOSS_HOME $RHPAM_HOME
-cp reset-bc.sh $RHPAM_HOME
-# cp reset-db.sh $RHPAM_HOME
 
 echo "Now, start server in administration mode by running this command: ./standalone.sh -c standalone-full.xml --admin-only"

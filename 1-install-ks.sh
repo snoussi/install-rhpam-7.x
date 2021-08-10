@@ -1,10 +1,8 @@
 #!/bin/sh
 
-PRODUCT="Red Hat Process Automation Manager 7.11.0 on EAP 7.3"
+PRODUCT="Red Hat Process Automation Manager 7.11.0 Kie Server on EAP 7.3"
 
-RHPAM_BC=rhpam-7.11.1-business-central-eap7-deployable
 RHPAM_KS=rhpam-7.11.1-kie-server-ee8
-#RHPAM_PATCH_WILDCARD=
 
 EAP=jboss-eap-7.3.0
 EAP_PATCH=jboss-eap-7.3.5-patch
@@ -19,7 +17,7 @@ TARGET=../
 SRC_DIR=./installs
 
 JBOSS_HOME=$TARGET/jboss-eap-7.3
-RHPAM_HOME=$TARGET/rhpam-7.11
+RHPAM_HOME=$TARGET/rhpam-ks-7.11
 
 echo
 echo "#################################################################"
@@ -52,15 +50,6 @@ else
   exit
 fi
 
-
-if [ -r $SRC_DIR/$RHPAM_BC.zip ] || [ -L $SRC_DIR/$RHPAM_BC.zip ]; then
-  echo "Red Hat Product sources $RHPAM_BC.zip are present..."
-  echo
-else
-  echo "Need to download $RHPAM_BC.zip package from the Customer Portal"
-  echo "and place it in the $SRC_DIR directory to proceed..."
-  exit
-fi
 
 if [ -r $SRC_DIR/$RHPAM_KS.zip ] || [ -L $SRC_DIR/$RHPAM_KS.zip ]; then
   echo "Red Hat Product sources $RHPAM_KS.zip are present..."
@@ -124,17 +113,6 @@ if [ $? -ne 0 ]; then
  exit
 fi
 
-echo
-echo "Deploying $PRODUCT ($RHPAM_BC) now..."
-echo
-
-unzip -qo $SRC_DIR/$RHPAM_BC.zip -d $TARGET
-
-if [ $? -ne 0 ]; then
-  echo
-  echo "Error occurred during $PRODUCT installation!"
-  exit
-fi
 
 echo
 echo "Deploying $PRODUCT ($RHPAM_KS) now..."
@@ -161,7 +139,6 @@ echo
 $JBOSS_HOME/bin/add-user.sh -a -u $RHPAM_USER -p $RHPAM_PWD -ro admin,Administrators,kie-server,rest-all --silent
 $JBOSS_HOME/bin/add-user.sh -a -u manager1 -p manager1 -ro manager,kie-server,rest-all --silent
 $JBOSS_HOME/bin/add-user.sh -a -u user1 -p user1 -ro user,kie-server,rest-all --silent
-$JBOSS_HOME/bin/add-user.sh -a -u user2 -p user2 -ro user,kie-server,rest-all --silent
 
 if [ $? -ne 0 ]; then
   echo
@@ -173,7 +150,5 @@ echo
 echo "Renaming folders ..."
 echo
 mv $JBOSS_HOME $RHPAM_HOME
-cp reset-bc.sh $RHPAM_HOME
-# cp reset-db.sh $RHPAM_HOME
 
 echo "Now, start server in administration mode by running this command: ./standalone.sh -c standalone-full.xml --admin-only"

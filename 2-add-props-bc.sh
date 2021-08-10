@@ -5,8 +5,8 @@ echo "Start Server first by running this command: ./standalone.sh -c standalone-
 
 TARGET=../
 #TODO: Edit EAP version
-JBOSS_HOME=$TARGET/rhpam-7.11
-CLI_SCRIPT=2-add-props.cli
+JBOSS_HOME=$TARGET/rhpam-bc-7.11
+CLI_SCRIPT=2-add-props-bc.cli
 
 if [ ! -z "$CLI_SCRIPT" ]
 then
